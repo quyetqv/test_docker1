@@ -27,7 +27,10 @@ jobs:
         run: |
           ssh ubuntu@13.250.1.39 << 'EOF'
             cd ~/laravel-app
+            sudo chown -R ubuntu:ubuntu .
             docker compose down
             docker compose up --build -d
+            docker exec laravel_app chown -R www-data:www-data storage bootstrap/cache
+            docker exec laravel_app chmod -R 775 storage bootstrap/cache
             docker exec laravel_app php artisan migrate --force
           EOF
