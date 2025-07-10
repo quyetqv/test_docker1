@@ -30,6 +30,8 @@ jobs:
             sudo chown -R ubuntu:ubuntu .
             docker compose down
             docker compose up --build -d
+            docker exec laravel_app composer install
+            docker exec laravel_app php artisan key:generate
             docker exec laravel_app chown -R www-data:www-data storage bootstrap/cache
             docker exec laravel_app chmod -R 775 storage bootstrap/cache
             docker exec laravel_app php artisan migrate --force
