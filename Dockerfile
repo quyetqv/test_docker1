@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     nodejs \
     npm \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd dom xml xmlwriter
     
 RUN chown -R www-data:www-data /var/www
 # Cài composer
