@@ -44,6 +44,11 @@ jobs:
           ssh ubuntu@13.250.1.39 << 'EOF'
             cd ~/laravel_app
             # Dừng và xóa các container cũ
+            docker compose down --remove-orphans
+
+            # Xóa container vite-dev nếu còn sót lại
+            docker rm -f vite-dev || true
+
             docker compose down
 
             # Build và chạy lại
