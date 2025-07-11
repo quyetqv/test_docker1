@@ -2,7 +2,6 @@ FROM php:8.2-fpm
 
 # Cài các extension cần cho Laravel
 RUN apt-get update && apt-get install -y \
-    build-essential \
     libpng-dev \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
@@ -11,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     curl \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd dom xml xmlwriter
+    && docker-php-ext-install pdo_mysql mbstring bcmath exif pcntl gd dom xml xmlwriter fileinfo
     
 RUN chown -R www-data:www-data /var/www
 # Cài composer
