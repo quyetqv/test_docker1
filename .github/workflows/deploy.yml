@@ -20,16 +20,16 @@ jobs:
 
       - name: Remove old project on EC2
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@13.250.1.39 "sudo rm -rf /home/laravel-app"
+          ssh -o StrictHostKeyChecking=no ubuntu@13.250.1.39 "sudo rm -rf ~/laravel-app"
 
       - name: Copy project to EC2 via rsync
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@13.250.1.39 "mkdir -p /home/laravel-app/src"
+          ssh -o StrictHostKeyChecking=no ubuntu@13.250.1.39 "mkdir -p ~/laravel-app/src"
           # Thay vì dùng path tuyệt đối, deploy vào cùng cấp:
-          rsync -avz ./src/ ubuntu@13.250.1.39:/home/laravel-app/src
-          rsync -avz ./docker-compose.yml ubuntu@13.250.1.39:/home/laravel-app/docker-compose.yml
-          rsync -avz ./Dockerfile ubuntu@13.250.1.39:/home/laravel-app/Dockerfile
-          rsync -avz ./nginx ubuntu@13.250.1.39:/home/laravel-app/nginx
+          rsync -avz ./src/ ubuntu@13.250.1.39:~/laravel-app/src
+          rsync -avz ./docker-compose.yml ubuntu@13.250.1.39:~/laravel-app/docker-compose.yml
+          rsync -avz ./Dockerfile ubuntu@13.250.1.39:~/laravel-app/Dockerfile
+          rsync -avz ./nginx ubuntu@13.250.1.39:~/laravel-app/nginx
           
       - name: Install Docker Compose plugin (if needed)
         run: |
