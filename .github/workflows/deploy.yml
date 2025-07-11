@@ -26,7 +26,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@13.250.1.39 "mkdir -p ~/laravel-app/src"
           # Thay vì dùng path tuyệt đối, deploy vào cùng cấp:
-          rsync -avz ./src ubuntu@13.250.1.39:~/laravel-app/src
+          rsync -avz ./src/ ubuntu@13.250.1.39:~/laravel-app/src
           rsync -avz ./docker-compose.yml ubuntu@13.250.1.39:~/laravel-app/docker-compose.yml
           rsync -avz ./Dockerfile ubuntu@13.250.1.39:~/laravel-app/Dockerfile
           rsync -avz ./nginx ubuntu@13.250.1.39:~/laravel-app/nginx
