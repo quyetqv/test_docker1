@@ -20,16 +20,16 @@ jobs:
 
       - name: Remove old project on EC2
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@13.250.1.39 "sudo rm -rf ~/laravel-app"
+          ssh -o StrictHostKeyChecking=no ubuntu@13.250.1.39 "sudo rm -rf ~/laravel_app"
 
       - name: Copy project to EC2 via rsync
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@13.250.1.39 "mkdir -p ~/laravel-app/src"
+          ssh -o StrictHostKeyChecking=no ubuntu@13.250.1.39 "mkdir -p ~/laravel_app/src"
           # Thay vì dùng path tuyệt đối, deploy vào cùng cấp:
-          rsync -avz ./src/ ubuntu@13.250.1.39:~/laravel-app/src
-          rsync -avz ./docker-compose.yml ubuntu@13.250.1.39:~/laravel-app/docker-compose.yml
-          rsync -avz ./Dockerfile ubuntu@13.250.1.39:~/laravel-app/Dockerfile
-          rsync -avz ./nginx ubuntu@13.250.1.39:~/laravel-app/nginx
+          rsync -avz ./src/ ubuntu@13.250.1.39:~/laravel_app/src
+          rsync -avz ./docker-compose.yml ubuntu@13.250.1.39:~/laravel_app/docker-compose.yml
+          rsync -avz ./Dockerfile ubuntu@13.250.1.39:~/laravel_app/Dockerfile
+          rsync -avz ./nginx ubuntu@13.250.1.39:~/laravel_app/nginx
           
       - name: Install Docker Compose plugin (if needed)
         run: |
@@ -42,7 +42,7 @@ jobs:
       - name: Build and run docker on EC2
         run: |
           ssh ubuntu@13.250.1.39 << 'EOF'
-            cd ~/laravel-app
+            cd ~/laravel_app
             # Dừng và xóa các container cũ
             docker compose down
 
@@ -53,7 +53,7 @@ jobs:
             sleep 10
 
             # install composer dependencies
-            cd ~/laravel-app/src
+            cd ~/laravel_app/src
 
             # Kiểm tra nếu file .env.example tồn tại thì copy
             docker exec -w /var/www laravel_app sh -c 'test -f .env.example && cp .env.example .env || echo ".env.example not found, skipping"'
