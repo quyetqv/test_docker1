@@ -25,7 +25,8 @@ jobs:
       - name: Copy project to EC2 via rsync
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@13.250.1.39 "mkdir -p ~/laravel-app/src"
-          rsync -avz --no-group --exclude=node_modules --exclude=vendor ./src/ ubuntu@13.250.1.39:~/laravel-app/src
+          # Thay vì dùng path tuyệt đối, deploy vào cùng cấp:
+          rsync -avz ./src/ ubuntu@13.250.1.39:~/laravel-app/src
           
       - name: Install Docker Compose plugin (if needed)
         run: |
@@ -52,14 +53,14 @@ jobs:
             cd ~/laravel-app/src
 
             # Kiểm tra nếu file .env.example tồn tại thì copy
-            docker exec laravel_app sh -c 'test -f .env.example && cp .env.example .env || echo ".env.example not found, skipping"'
+            docker exec -w /var/www laravel_app sh -c 'test -f .env.example && cp .env.example .env || echo ".env.example not found, skipping"'
 
             # Chạy composer + key + migrate nếu container ổn
-            docker exec laravel_app composer install || true
-            docker exec laravel_app php artisan key:generate || true
-            docker exec laravel_app php artisan migrate --force || true
-            docker exec laravel_app chown -R www-data:www-data storage bootstrap/cache || true
-            docker exec laravel_app chmod -R 775 storage bootstrap/cache || true
-            docker exec laravel_app php artisan config:cache || true
-            docker exec laravel_app php artisan route:cache || true
+            docker exec -w /var/www laravel_app composer install || true
+            docker exec -w /var/www laravel_app php artisan key:generate || true
+            docker exec -w /var/www laravel_app php artisan migrate --force || true
+            docker exec -w /var/www laravel_app chown -R www-data:www-data storage bootstrap/cache || true
+            docker exec -w /var/www laravel_app chmod -R 775 storage bootstrap/cache || true
+            docker exec -w /var/www laravel_app php artisan config:cache || true
+            docker exec -w /var/www laravel_app php artisan route:cache || true
           EOF
