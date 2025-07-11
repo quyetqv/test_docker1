@@ -46,8 +46,8 @@ jobs:
             # Dừng và xóa các container cũ
             docker compose down --remove-orphans
 
-            # Xóa container vite-dev nếu còn sót lại
-            docker rm -f vite-dev || true
+            # Xóa các container còn sót lại nếu có
+            docker rm -f vite-dev laravel_app nginx_server mysql_db || true
 
             docker compose down
 
