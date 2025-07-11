@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     curl \
-    && docker-php-ext-install pdo_mysql mbstring bcmath exif pcntl gd dom xml xmlwriter fileinfo
+    && docker-php-ext-install pdo_mysql mbstring bcmath exif pcntl gd dom xml xmlwriter
     
 RUN chown -R www-data:www-data /var/www
 # Cài composer
