@@ -20,6 +20,7 @@ jobs:
 
       - name: Remove old project on EC2
         run: |
+          docker compose down --remove-orphans
           ssh -o StrictHostKeyChecking=no ubuntu@13.250.1.39 "sudo rm -rf ~/laravel_app"
 
       - name: Copy project to EC2 via rsync
