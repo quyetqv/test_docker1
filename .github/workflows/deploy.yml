@@ -27,6 +27,14 @@ jobs:
           ssh -o StrictHostKeyChecking=no ubuntu@13.250.1.39 "mkdir -p ~/laravel-app"
           rsync -avz --exclude=node_modules --exclude=vendor ./ ubuntu@13.250.1.39:~/laravel-app
 
+      - name: Install Docker Compose plugin (if needed)
+        run: |
+          ssh ubuntu@13.250.1.39 << 'EOF'
+            mkdir -p ~/.docker/cli-plugins
+            curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 \
+              -o ~/.docker/cli-plugins/docker-compose
+            chmod +x ~/.docker/cli-plugins/docker-compose
+          EOF
       - name: Build and run docker on EC2
         run: |
           ssh ubuntu@13.250.1.39 << 'EOF'
@@ -34,8 +42,13 @@ jobs:
             docker compose down
             docker compose up --build -d
             docker exec laravel_app composer install
+
+            docker exec laravel_app cp .env.example .env
             docker exec laravel_app php artisan key:generate
+
             docker exec laravel_app chown -R www-data:www-data storage bootstrap/cache
             docker exec laravel_app chmod -R 775 storage bootstrap/cache
+            docker exec laravel_app php artisan config:cache
+            docker exec laravel_app php artisan route:cache
             docker exec laravel_app php artisan migrate --force
           EOF
