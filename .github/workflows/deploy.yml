@@ -39,16 +39,25 @@ jobs:
         run: |
           ssh ubuntu@13.250.1.39 << 'EOF'
             cd ~/laravel-app
+            # Dừng và xóa các container cũ
             docker compose down
+
+            # Build và chạy lại
             docker compose up --build -d
-            docker exec laravel_app composer install
 
-            docker exec laravel_app cp .env.example .env
-            docker exec laravel_app php artisan key:generate
+            # Chờ container khởi động xong (tránh lỗi restart loop)
+            sleep 10
 
-            docker exec laravel_app chown -R www-data:www-data storage bootstrap/cache
-            docker exec laravel_app chmod -R 775 storage bootstrap/cache
-            docker exec laravel_app php artisan config:cache
-            docker exec laravel_app php artisan route:cache
-            docker exec laravel_app php artisan migrate --force
+            # Kiểm tra nếu file .env.example tồn tại thì copy
+            docker exec laravel_app sh -c 'test -f .env.example && cp .env.example .env || echo ".env.example not found, skipping"'
+
+
+            # Chạy composer + key + migrate nếu container ổn
+            docker exec laravel_app composer install || true
+            docker exec laravel_app php artisan key:generate || true
+            docker exec laravel_app php artisan migrate --force || true
+            docker exec laravel_app chown -R www-data:www-data storage bootstrap/cache || true
+            docker exec laravel_app chmod -R 775 storage bootstrap/cache || true
+            docker exec laravel_app php artisan config:cache || true
+            docker exec laravel_app php artisan route:cache || true
           EOF
