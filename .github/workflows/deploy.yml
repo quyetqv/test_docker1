@@ -62,7 +62,6 @@ jobs:
 
             # Chạy composer + key + migrate nếu container ổn
             docker exec -w /var/www laravel_app composer install || true
-            docker exec -w /var/www vite-dev npm install || true
             docker exec -w /var/www laravel_app php artisan key:generate || true
             docker exec -w /var/www laravel_app php artisan migrate --force || true
             docker exec -w /var/www laravel_app chown -R www-data:www-data storage bootstrap/cache || true
