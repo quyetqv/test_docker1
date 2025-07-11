@@ -22,6 +22,7 @@ jobs:
         run: |
           docker compose down --remove-orphans
           ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=30 ubuntu@13.250.1.39 "sudo rm -rf ~/laravel_app"
+          ssh -o StrictHostKeyChecking=no ubuntu@13.250.1.39 "sudo rm -rf ~/laravel_app/src/* ~/laravel_app/nginx/*"
 
       - name: Copy project to EC2 via rsync
         run: |
