@@ -25,7 +25,7 @@ jobs:
       - name: Copy project to EC2 via rsync
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@13.250.1.39 "mkdir -p ~/laravel-app"
-          rsync -avz --exclude=node_modules --exclude=vendor ./ ubuntu@13.250.1.39:~/laravel-app
+          rsync -avz --no-group --exclude=node_modules --exclude=vendor ./ ubuntu@13.250.1.39:~/laravel-app
 
       - name: Install Docker Compose plugin (if needed)
         run: |
