@@ -48,7 +48,7 @@ services:
     working_dir: /var/www
     volumes:
       - /home/ubuntu/laravel_app/src:/var/www
-    command: npm run dev
+    command: npm install && npm run dev
     ports:
       - "5173:5173"
 volumes:
