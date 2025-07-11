@@ -48,9 +48,11 @@ jobs:
             # Chờ container khởi động xong (tránh lỗi restart loop)
             sleep 10
 
+            # install composer dependencies
+            cd ~/laravel-app/src
+
             # Kiểm tra nếu file .env.example tồn tại thì copy
             docker exec laravel_app sh -c 'test -f .env.example && cp .env.example .env || echo ".env.example not found, skipping"'
-
 
             # Chạy composer + key + migrate nếu container ổn
             docker exec laravel_app composer install || true
