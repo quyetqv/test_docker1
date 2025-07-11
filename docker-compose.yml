@@ -11,7 +11,7 @@ services:
     working_dir: /var/www
     command: php artisan serve --host=0.0.0.0 --port=9000
     volumes:
-      - /home/ubuntu/laravel_app/src:/var/www
+      - ./src:/var/www
     ports:
       - 9000:9000
     depends_on:
@@ -24,8 +24,8 @@ services:
     ports:
       - 8000:80
     volumes:
-      - /home/ubuntu/laravel_app/src:/var/www
-      - /home/ubuntu/laravel_app/nginx:/etc/nginx/conf.d
+      - ./src:/var/www
+      - ./nginx:/etc/nginx/conf.d
     depends_on:
       - app
 
@@ -47,7 +47,7 @@ services:
     container_name: vite-dev
     working_dir: /var/www
     volumes:
-      - /home/ubuntu/laravel_app/src:/var/www
+      - ./src:/var/www
     command: npm run dev
     ports:
       - "5173:5173"
