@@ -21,21 +21,21 @@ jobs:
       - name: Remove old project on EC2
         run: |
           docker compose down --remove-orphans
-          ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=30 ubuntu@13.250.1.39 "sudo rm -rf ~/laravel_app"
-          ssh -o StrictHostKeyChecking=no ubuntu@13.250.1.39 "sudo rm -rf ~/laravel_app/src/* ~/laravel_app/nginx/*"
+          ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=30 ubuntu@18.140.60.228 "sudo rm -rf ~/laravel_app"
+          ssh -o StrictHostKeyChecking=no ubuntu@18.140.60.228 "sudo rm -rf ~/laravel_app/src/* ~/laravel_app/nginx/*"
 
       - name: Copy project to EC2 via rsync
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@13.250.1.39 "mkdir -p ~/laravel_app/src"
+          ssh -o StrictHostKeyChecking=no ubuntu@18.140.60.228 "mkdir -p ~/laravel_app/src"
           # Thay vì dùng path tuyệt đối, deploy vào cùng cấp:
-          rsync -avz ./src/ ubuntu@13.250.1.39:~/laravel_app/src
-          rsync -avz ./docker-compose.yml ubuntu@13.250.1.39:~/laravel_app/docker-compose.yml
-          rsync -avz ./Dockerfile ubuntu@13.250.1.39:~/laravel_app/Dockerfile
-          rsync -avz ./nginx ubuntu@13.250.1.39:~/laravel_app/nginx
+          rsync -avz ./src/ ubuntu@18.140.60.228:~/laravel_app/src
+          rsync -avz ./docker-compose.yml ubuntu@18.140.60.228:~/laravel_app/docker-compose.yml
+          rsync -avz ./Dockerfile ubuntu@18.140.60.228:~/laravel_app/Dockerfile
+          rsync -avz ./nginx ubuntu@18.140.60.228:~/laravel_app/nginx
           
       - name: Install Docker Compose plugin (if needed)
         run: |
-          ssh ubuntu@13.250.1.39 << 'EOF'
+          ssh ubuntu@18.140.60.228 << 'EOF'
             mkdir -p ~/.docker/cli-plugins
             curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 \
               -o ~/.docker/cli-plugins/docker-compose
@@ -43,7 +43,7 @@ jobs:
           EOF
       - name: Build and run docker on EC2
         run: |
-          ssh ubuntu@13.250.1.39 << 'EOF'
+          ssh ubuntu@18.140.60.228 << 'EOF'
             cd ~/laravel_app
             # Dừng và xóa các container cũ
             docker compose down --remove-orphans
