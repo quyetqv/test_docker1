@@ -31,6 +31,7 @@ jobs:
           rsync -avz ./src/ ubuntu@47.128.232.63:~/laravel_app/src
           rsync -avz ./docker-compose.yml ubuntu@47.128.232.63:~/laravel_app/docker-compose.yml
           rsync -avz ./Dockerfile ubuntu@47.128.232.63:~/laravel_app/Dockerfile
+          rsync -avz ./entrypoint.sh ubuntu@47.128.232.63:~/laravel_app/entrypoint.sh
           rsync -avz ./nginx ubuntu@47.128.232.63:~/laravel_app/nginx
           
       - name: Install Docker Compose plugin (if needed)
