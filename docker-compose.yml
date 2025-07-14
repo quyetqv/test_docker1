@@ -23,7 +23,7 @@ services:
     container_name: nginx_server
     restart: unless-stopped
     ports:
-      - 8000:80
+      - 9000:80
     volumes:
       - /home/ubuntu/laravel_app/src:/var/www
       - /home/ubuntu/laravel_app/nginx:/etc/nginx/conf.d
