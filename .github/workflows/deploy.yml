@@ -26,7 +26,7 @@ jobs:
 
       - name: Copy project to EC2 via rsync
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@47.128.232.63 "mkdir -p ~/laravel_app/src"
+          ssh -o StrictHostKeyChecking=no ubuntu@47.128.232.63 "mkdir -p ~/laravel_app/src && sudo chown -R ubuntu:ubuntu ~/laravel_app"
           # Thay vì dùng path tuyệt đối, deploy vào cùng cấp:
           rsync -avz ./src/ ubuntu@47.128.232.63:~/laravel_app/src
           rsync -avz ./docker-compose.yml ubuntu@47.128.232.63:~/laravel_app/docker-compose.yml
