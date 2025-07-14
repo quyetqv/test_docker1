@@ -16,3 +16,8 @@ RUN chown -R www-data:www-data /var/www
 # Cài composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www
+
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
